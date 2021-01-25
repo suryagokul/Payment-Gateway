@@ -1,0 +1,47 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}
+WTForms
+
+
+{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="static/css/styles.css">
+<script>
+        function formatCreditCard() {
+          var x = document.getElementById("card_no");
+          var index = x.value.lastIndexOf('-');
+          var test = x.value.substr(index + 1);
+          if (test.length === 4 &&  x.value.length<16)
+               x.value = x.value + '-';
+        }
+
+  </script>
+<div class="col-md-7 col-md-offset-10">
+<div class="form-container">
+<div class="container">
+            <div class="card-header">
+                <h3 class="mb-0" style="text-align: center;">Enter Payment Details</h3>
+     </div>
+
+            <form method="POST"  action="/">
+                    {{form.csrf_token}}
+                <div class="form-group  required">
+                    <label for="card_no">Credit Card Number</label>
+
+                    <input class="form-control" id="card_no" onkeyup="formatCreditCard()" autocomplete=off name="card_no" pattern="[0-9]+(-[0-9]+)+" placeholder="xxxx-xxxx-xxxx-xxxx (16 digits)" required="" type="text" value="" maxlength="19">
+
+                </div >
+                <div class="form-group">
+                    {{ wtf.quick_form(form)}}
+                            <input class="btn btn-primary btn-block" type="submit" value="Pay Securely">
+                </div>
+            </form>
+</div>
+</div>
+</div>
+{% endblock %}
